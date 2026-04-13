@@ -1,0 +1,29 @@
+import sqlite3
+
+conn = sqlite3.connect("database.db")
+cursor = conn.cursor()
+
+cursor.execute("""
+CREATE TABLE sales (
+    id INTEGER PRIMARY KEY,
+    customer_name TEXT,
+    product TEXT,
+    amount INTEGER,
+    city TEXT
+)
+""")
+
+data = [
+    ("Alice", "Laptop", 800, "New York"),
+    ("Bob", "Phone", 500, "London"),
+    ("Charlie", "Tablet", 300, "Paris"),
+    ("Alice", "Phone", 400, "New York"),
+    ("Bob", "Laptop", 900, "London")
+]
+
+cursor.executemany(
+    "INSERT INTO sales (customer_name, product, amount, city) VALUES (?, ?, ?, ?)", data
+)
+
+conn.commit()
+conn.close()
